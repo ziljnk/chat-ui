@@ -2,6 +2,17 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "angular-chatbot-ui": [
+        "./dist/angular-chatbot-ui"
+      ],
+      "angular-chatbot-ui-tma": [
+        "./dist/angular-chatbot-ui-tma"
+      ],
+      "ng-chatbot-ui": [
+        "./dist/ng-chatbot-ui"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
