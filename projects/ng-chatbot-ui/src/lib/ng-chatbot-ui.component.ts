@@ -168,28 +168,6 @@ interface Message {
     width: 1.5rem;
     height: 1.5rem;
 }
-
-// /* Scrollbar width */
-// ::-webkit-scrollbar {
-//     width: 5px;
-//   }
-  
-//   /* Scrollbar track */
-//   ::-webkit-scrollbar-track {
-//     background: #ffffff; /* Light blue to complement the message background */
-//     border-radius: 10px;
-//   }
-  
-//   /* Scrollbar handle */
-//   ::-webkit-scrollbar-thumb {
-//     background: #cfe6ff; /* Matches the user-message blue color */
-//     border-radius: 10px;
-//   }
-  
-//   /* Scrollbar handle on hover */
-//   ::-webkit-scrollbar-thumb:hover {
-//     background: #9dccff; /* Darker blue for hover feedback */
-//   }
   
   * {
     box-sizing: border-box;
@@ -316,8 +294,10 @@ export class NgChatbotUiComponent {
 
     handleSendMessageByEnter(event: any) {
         if (event.key === 'Enter' && !event.shiftKey && !this.isWaitingForResponse) {
-            event.preventDefault();
-            this.sendMessage();
+            if (this.messageInput.value && this.messageInput.value.trim().length !== 0) {
+                event.preventDefault();
+                this.sendMessage();
+            }
         }
     }
 }

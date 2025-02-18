@@ -1,7 +1,7 @@
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     background-color: #ffffff;
 }
 
@@ -116,26 +116,3 @@
     width: 1.5rem;
     height: 1.5rem;
 }
-
-/* Scrollbar width */
-::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  /* Scrollbar track */
-  ::-webkit-scrollbar-track {
-    background: #ffffff; /* Light blue to complement the message background */
-    border-radius: 10px;
-  }
-  
-  /* Scrollbar handle */
-  ::-webkit-scrollbar-thumb {
-    background: #cfe6ff; /* Matches the user-message blue color */
-    border-radius: 10px;
-  }
-  
-  /* Scrollbar handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #9dccff; /* Darker blue for hover feedback */
-  }
-  

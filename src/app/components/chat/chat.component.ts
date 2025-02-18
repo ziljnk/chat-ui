@@ -91,8 +91,10 @@ export class ChatComponent {
 
 	handleSendMessageByEnter(event: any) {
 		if (event.key === 'Enter' && !event.shiftKey && !this.isWaitingForResponse) {
-			event.preventDefault();
-			this.sendMessage();
+			if (this.messageInput.value && this.messageInput.value.trim().length !== 0) {
+				event.preventDefault();
+				this.sendMessage();
+			}
 		}
 	}
 }
