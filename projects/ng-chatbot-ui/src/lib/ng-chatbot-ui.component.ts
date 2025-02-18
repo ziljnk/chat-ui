@@ -4,21 +4,21 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextareaAutoresizeDirective } from './textarea-autoresize.directive';
 
 interface Message {
-	content: string;
-	isUser: boolean;
-	timestamp: Date;
+    content: string;
+    isUser: boolean;
+    timestamp: Date;
 }
 
 @Component({
-	selector: 'ng-chatbot-ui',
-	standalone: true,
-	imports: [
-		CommonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		TextareaAutoresizeDirective
-	],
-	template: `
+    selector: 'ng-chatbot-ui',
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TextareaAutoresizeDirective
+    ],
+    template: `
     <div class="chat-container">
 	<div class="chat-messages" #scrollContainer>
 		<div *ngFor="let message of messages"
@@ -49,11 +49,11 @@ interface Message {
 	</div>
 </div>
   `,
-	styles: `
+    styles: `
   .chat-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     background-color: #ffffff;
 }
 
@@ -169,27 +169,27 @@ interface Message {
     height: 1.5rem;
 }
 
-/* Scrollbar width */
-::-webkit-scrollbar {
-    width: 5px;
-  }
+// /* Scrollbar width */
+// ::-webkit-scrollbar {
+//     width: 5px;
+//   }
   
-  /* Scrollbar track */
-  ::-webkit-scrollbar-track {
-    background: #ffffff; /* Light blue to complement the message background */
-    border-radius: 10px;
-  }
+//   /* Scrollbar track */
+//   ::-webkit-scrollbar-track {
+//     background: #ffffff; /* Light blue to complement the message background */
+//     border-radius: 10px;
+//   }
   
-  /* Scrollbar handle */
-  ::-webkit-scrollbar-thumb {
-    background: #cfe6ff; /* Matches the user-message blue color */
-    border-radius: 10px;
-  }
+//   /* Scrollbar handle */
+//   ::-webkit-scrollbar-thumb {
+//     background: #cfe6ff; /* Matches the user-message blue color */
+//     border-radius: 10px;
+//   }
   
-  /* Scrollbar handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #9dccff; /* Darker blue for hover feedback */
-  }
+//   /* Scrollbar handle on hover */
+//   ::-webkit-scrollbar-thumb:hover {
+//     background: #9dccff; /* Darker blue for hover feedback */
+//   }
   
   * {
     box-sizing: border-box;
@@ -247,77 +247,77 @@ body {
   `
 })
 export class NgChatbotUiComponent {
-	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-	@ViewChild('textarea') private textArea!: ElementRef;
-	@Input() sendMessageCallback!: (message: string) => Promise<string>;
-	@Output() onMessageSent = new EventEmitter<string>();
-	@Output() onMessageReceived = new EventEmitter<string>();
+    @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+    @ViewChild('textarea') private textArea!: ElementRef;
+    @Input() sendMessageCallback!: (message: string) => Promise<string>;
+    @Output() onMessageSent = new EventEmitter<string>();
+    @Output() onMessageReceived = new EventEmitter<string>();
 
-	messages: Message[] = [
-		{
-			content: 'Hello! How can I help you today?',
-			isUser: false,
-			timestamp: new Date()
-		}
-	];
-	messageInput = new FormControl('');
-	isWaitingForResponse = false;
+    messages: Message[] = [
+        {
+            content: 'Hello! How can I help you today?',
+            isUser: false,
+            timestamp: new Date()
+        }
+    ];
+    messageInput = new FormControl('');
+    isWaitingForResponse = false;
 
-	ngAfterViewChecked() {
-		this.scrollToBottom();
-	}
+    ngAfterViewChecked() {
+        this.scrollToBottom();
+    }
 
-	private scrollToBottom(): void {
-		try {
-			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-		} catch (err) { }
-	}
+    private scrollToBottom(): void {
+        try {
+            this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+        } catch (err) { }
+    }
 
-	async sendMessage() {
-		if (this.isWaitingForResponse) {
-			return;
-		}
+    async sendMessage() {
+        if (this.isWaitingForResponse) {
+            return;
+        }
 
-		this.isWaitingForResponse = true;
-		const content = this.messageInput.value?.trim();
-		if (content) {
-			this.messages.push({
-				content,
-				isUser: true,
-				timestamp: new Date()
-			});
-			this.onMessageSent.emit(content);
-			this.messageInput.reset();
-			this.textArea.nativeElement.style.height = '23px';
+        this.isWaitingForResponse = true;
+        const content = this.messageInput.value?.trim();
+        if (content) {
+            this.messages.push({
+                content,
+                isUser: true,
+                timestamp: new Date()
+            });
+            this.onMessageSent.emit(content);
+            this.messageInput.reset();
+            this.textArea.nativeElement.style.height = '23px';
 
-			if (this.sendMessageCallback) {
-				try {
-					const response = await this.sendMessageCallback(content);
-					this.messages.push({
-						content: response ?? 'This is a sample response from the bot.',
-						isUser: false,
-						timestamp: new Date()
-					});
+            if (this.sendMessageCallback) {
+                try {
+                    const response = await this.sendMessageCallback(content);
+                    this.messages.push({
+                        content: response ?? 'This is a sample response from the bot.',
+                        isUser: false,
+                        timestamp: new Date()
+                    });
 
-					this.onMessageReceived.emit(response);
-					this.isWaitingForResponse = false
-				} catch (error) {
-					console.error("Error sending message:", error);
-					this.messages.push({
-						content: "Failed to get response from the server.",
-						isUser: false,
-						timestamp: new Date()
-					});
-					this.isWaitingForResponse = false;
-				}
-			}
-		}
-	}
+                    this.onMessageReceived.emit(response);
+                    this.isWaitingForResponse = false
+                } catch (error) {
+                    console.error("Error sending message:", error);
+                    this.messages.push({
+                        content: "Failed to get response from the server.",
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    this.isWaitingForResponse = false;
+                }
+            }
+        }
+    }
 
-	handleSendMessageByEnter(event: any) {
-		if (event.key === 'Enter' && !event.shiftKey && !this.isWaitingForResponse) {
-			event.preventDefault();
-			this.sendMessage();
-		}
-	}
+    handleSendMessageByEnter(event: any) {
+        if (event.key === 'Enter' && !event.shiftKey && !this.isWaitingForResponse) {
+            event.preventDefault();
+            this.sendMessage();
+        }
+    }
 }
